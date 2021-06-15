@@ -4,7 +4,7 @@
 
 int main()
 {
-    // system("cls");
+    system("cls");
     // printf("%d\n", (int)((float)rand()/RAND_MAX)*8);
     
     
@@ -23,10 +23,10 @@ int main()
 
     initZone1(*zone1);
 
-    // showZone(*zone2);
-    // printf("\n");
-    // showZone(*zone3);
-    // printf("\n");
+    showZone(*zone2);
+    printf("\n");
+    showZone(*zone3);
+    printf("\n");
     showZone(*zone1);
 
     return 0;

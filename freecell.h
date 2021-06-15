@@ -72,19 +72,20 @@ void showCard(Card* card)
     switch (card->num)
     {
     case 1:
-        printf("%s A", card->type); 
+        printf("%s  A", card->type); 
         break;
     case 11:
-        printf("%s J", card->type);
+        printf("%s  J", card->type);
         break;
     case 12:
-        printf("%s Q", card->type);
+        printf("%s  Q", card->type);
         break;
     case 13:
-        printf("%s K", card->type);
+        printf("%s  K", card->type);
         break;
     default:
-        printf("%s %d", card->type, card->num);
+        if (card->num<10) printf("%s  %d", card->type, card->num);
+        else    printf("%s %d", card->type, card->num);
     }
     printf("\033[0m"); 
 }
