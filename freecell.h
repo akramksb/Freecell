@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 
@@ -42,6 +43,7 @@ ElementPileCard *createElement(Card *card);
 //PileCard functions
 PileCard *createPile(char *name);
 void empiler(PileCard *pile, Card* card);
+Card *depiler(PileCard *pile);
 void showPile(PileCard pile);
 
 //Zone functions
@@ -52,6 +54,10 @@ Zone *createZone3();
 void showZone(Zone zone);
 void initZone1(Zone zone1);
 
+//Move
+void move(PileCard *depart, PileCard *arrive);
+PileCard *inputToPile(char * text, Zone* z1, Zone* z2, Zone* z3);
+void inputMove(Zone* z1, Zone* z2, Zone* z3);
 
 
 //functions implementation
@@ -113,6 +119,15 @@ void empiler(PileCard *pile, Card* card)
     ElementPileCard *element = createElement(card);
     element->next = pile->head;
     pile->head = element;
+}
+
+Card *depiler(PileCard *pile)
+{
+    Card *Card = pile->head->card;
+    ElementPileCard *tmp = pile->head;
+    pile->head = pile->head->next;
+    free(tmp);
+    return Card;
 }
 
 void showPile(PileCard pile)
@@ -246,5 +261,67 @@ void initZone1(Zone zone1)
     }
 
 }
+
+
+//Move
+void move(PileCard *depart, PileCard *arrive)
+{
+    if (depart->head == NULL)
+    {
+        printf("Erreur: depart est vide\n");
+        return;
+    }
+    Card *card = depiler(depart);
+    empiler(arrive, card);
+}
+
+PileCard *inputToPile(char * text, Zone* z1, Zone* z2, Zone* z3)
+{
+    int i = text[0]-'1';
+    if (i >= 0 && i < 8)
+    {
+        return &z1->cols[i];
+    }
+    i = text[0]-'A';
+    if (strlen(text)==1 && i>=0 && i<4)
+    {
+        return &z2->cols[i];
+    }
+    if (!strcmp(text, "Ca"))    return &z3->cols[0];
+    if (!strcmp(text, "Pi"))    return &z3->cols[1];
+    if (!strcmp(text, "Co"))    return &z3->cols[2];
+    if (!strcmp(text, "Tr"))    return &z3->cols[3];
+
+    return NULL;
+}
+
+void inputMove(Zone* z1, Zone* z2, Zone* z3)
+{
+    char text[2];
+    PileCard *depart, *arrive;
+
+    printf("Depart : ");
+    scanf("%s", text);
+    depart = inputToPile(text, z1, z2, z3);
+
+    printf("Arrivee : ");
+    scanf("%s", text);
+    arrive = inputToPile(text, z1, z2, z3);
+
+    if ( !depart )
+    {
+        printf("Erreur : invalide depart col\n");
+        return;
+    }
+    if ( !arrive )
+    {
+        printf("Erreur : invalide arrivee col\n");
+        return;
+    }
+    
+    
+    move(depart, arrive);
+}
+
 
 #endif

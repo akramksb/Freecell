@@ -2,32 +2,35 @@
 #include <stdlib.h>
 #include "freecell.h"
 
+void showBoard(Zone *z1, Zone *z2, Zone *z3)
+{
+    showZone(*z2);
+    printf("\n");
+    showZone(*z3);
+    printf("\n");
+    showZone(*z1);
+}
+
 int main()
 {
-    system("cls");
-    // printf("%d\n", (int)((float)rand()/RAND_MAX)*8);
-    
-    
-    
-    // PileCard *pileCard = createPile("testPile");
-    // empiler(pileCard, createCard(1, "Tr"));
-    // empiler(pileCard, createCard(12, "Pi"));
-    // empiler(pileCard, createCard(4, "Co"));
 
-    // showPile(*pileCard);
-
+    //init
+    Zone *z1 = createZone1();
+    Zone *z2 = createZone2();
+    Zone *z3 = createZone3();
+    initZone1(*z1);
     
-    Zone *zone1 = createZone1();
-    Zone *zone2 = createZone2();
-    Zone *zone3 = createZone3();
+    //game loop
+    while(1)
+    {
+        system("cls");
 
-    initZone1(*zone1);
+        showBoard(z1, z2, z3);
 
-    showZone(*zone2);
-    printf("\n");
-    showZone(*zone3);
-    printf("\n");
-    showZone(*zone1);
+        printf("\n\n");
+
+        inputMove(z1, z2, z3);
+    }
 
     return 0;
 }
