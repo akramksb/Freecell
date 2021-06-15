@@ -56,6 +56,7 @@ void initZone1(Zone zone1);
 
 //Move
 void move(PileCard *depart, PileCard *arrive);
+int isValideMove(PileCard *depart, PileCard *arrive);
 PileCard *inputToPile(char * text, Zone* z1, Zone* z2, Zone* z3);
 void inputMove(Zone* z1, Zone* z2, Zone* z3);
 
@@ -134,6 +135,13 @@ void showPile(PileCard pile)
 {
     ElementPileCard *head = pile.head;
     printf("%s  :  ", pile.name);
+    // Add this if you want to see only the first card of zone3
+    // if (pile.name[0]-'1' < 0 || pile.name[0]-'1' >= 8 && head!=NULL)
+    // {
+    //     showCard(head->card);
+    //     printf("\n");
+    //     return;
+    // }
     while ( head != NULL)
     {
         showCard(head->card);
@@ -318,9 +326,41 @@ void inputMove(Zone* z1, Zone* z2, Zone* z3)
         printf("Erreur : invalide arrivee col\n");
         return;
     }
+    if (isValideMove(depart, arrive))
+        move(depart, arrive);
+}
+
+int isValideMove(PileCard *depart, PileCard *arrive)
+{
+    //we make sure depart is not null in inputMove
+
+    //if depart is zone3 -> 0
+    if (!strcmp(depart->name, "Ca") || !strcmp(depart->name, "Pi") ||
+        !strcmp(depart->name, "Co") || !strcmp(depart->name, "Tr"))
+        return 0;
+
+    //if arrivee is zone3
+    if (!strcmp(arrive->name, "Ca") || !strcmp(arrive->name, "Pi") ||
+        !strcmp(arrive->name, "Co") || !strcmp(arrive->name, "Tr"))
+    {
+        // if card type if same as pile type
+        if ( ! strcmp( depart->head->card->type, arrive->name ))
+        {
+            // if there is a card in arrivee
+            if ( arrive->head && depart->head->card->num == arrive->head->card->num + 1)
+                return 1;
+            // arrive is empty
+            else if ( !arrive->head && depart->head->card->num == 1 )
+                return 1;
+            else
+                return 0;
+        }
+        else
+            return 0;
+    }
+
+
     
-    
-    move(depart, arrive);
 }
 
 
