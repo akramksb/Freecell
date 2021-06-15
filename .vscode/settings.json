@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "cstdlib": "cpp",
+        "time.h": "c",
+        "freecell.h": "c"
+    }
+}

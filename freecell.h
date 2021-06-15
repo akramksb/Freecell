@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <time.h>
 
 
 typedef struct
@@ -48,6 +50,7 @@ Zone *createZone1();
 Zone *createZone2();
 Zone *createZone3();
 void showZone(Zone zone);
+void initZone1(Zone zone1);
 
 
 
@@ -64,22 +67,26 @@ Card *createCard(int num, char *type)
 
 void showCard(Card* card)
 {
+    if (card->type[0] == 'C')
+        printf("\033[1;31m");
     switch (card->num)
     {
     case 1:
         printf("%s A", card->type); 
-        return;
+        break;
     case 11:
         printf("%s J", card->type);
-        return;
+        break;
     case 12:
         printf("%s Q", card->type);
-        return;
+        break;
     case 13:
         printf("%s K", card->type);
-        return;
+        break;
+    default:
+        printf("%s %d", card->type, card->num);
     }
-    printf("%s %d", card->type, card->num);
+    printf("\033[0m"); 
 }
 
 //ElementPileCard functions
@@ -181,7 +188,6 @@ Zone *createZone3()
     return zone;
 }
 
-
 void showZone(Zone zone)
 {
     int i;
@@ -191,5 +197,53 @@ void showZone(Zone zone)
     }
 }
 
+void initZone1(Zone zone1)
+{
+    srand(time(NULL));
+    //create linked list of all card
+    char *Types[] = {"Ca", "Co", "Pi", "Tr"};
+    int i, j , numOfCard = 4*13;
+    PileCard *cardList = createPile("list");
+    for (i=0 ; i<4 ; i++ )
+    {
+        for ( j=1 ; j<=13 ; j++)
+        {
+            Card *card = createCard(j, Types[i]);
+            empiler(cardList, card);
+        }
+    }
+
+    //select card at a time and put it in zone1
+    ElementPileCard *cardElPt = NULL;
+    ElementPileCard *previous = NULL;
+    
+    for ( i =0; i<4*13; i++)
+    {
+        cardElPt = cardList->head;
+        j = rand()%numOfCard;
+        if (j == 0)
+        {
+            cardList->head = cardList->head->next;
+        }
+        else
+        {
+            while (j>0)
+            {
+                if (j == 1)
+                {
+                    previous = cardElPt;
+                }
+                cardElPt = cardElPt->next;
+                j --;
+            }
+            previous->next = cardElPt->next;
+        }
+        numOfCard--;
+
+        empiler(&zone1.cols[i%8], cardElPt->card);
+        free(cardElPt);
+    }
+
+}
 
 #endif

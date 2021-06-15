@@ -4,6 +4,11 @@
 
 int main()
 {
+    // system("cls");
+    // printf("%d\n", (int)((float)rand()/RAND_MAX)*8);
+    
+    
+    
     // PileCard *pileCard = createPile("testPile");
     // empiler(pileCard, createCard(1, "Tr"));
     // empiler(pileCard, createCard(12, "Pi"));
@@ -11,12 +16,18 @@ int main()
 
     // showPile(*pileCard);
 
-    Zone *zone = createZone1();
     
-    empiler(&zone->cols[3], createCard(4, "Co"));
-    empiler(&zone->cols[3], createCard(12, "Co"));
-    empiler(&zone->cols[2], createCard(1, "Pi"));
-    empiler(&zone->cols[1], createCard(11, "Ca"));
-    showZone(*zone);
+    Zone *zone1 = createZone1();
+    Zone *zone2 = createZone2();
+    Zone *zone3 = createZone3();
+
+    initZone1(*zone1);
+
+    // showZone(*zone2);
+    // printf("\n");
+    // showZone(*zone3);
+    // printf("\n");
+    showZone(*zone1);
+
     return 0;
 }
