@@ -42,6 +42,12 @@ PileCard *createPile(char *name);
 void empiler(PileCard *pile, Card* card);
 void showPile(PileCard pile);
 
+//Zone functions
+Zone *createZone(int numOfCols);
+Zone *createZone1();
+Zone *createZone2();
+Zone *createZone3();
+void showZone(Zone zone);
 
 
 
@@ -104,18 +110,86 @@ void empiler(PileCard *pile, Card* card)
 void showPile(PileCard pile)
 {
     ElementPileCard *head = pile.head;
-    printf("%s\n  ", pile.name);
+    printf("%s  :  ", pile.name);
     while ( head != NULL)
     {
         showCard(head->card);
         if (head->next)
             printf(" | ");
-
         head = head->next;
     }
-    
+    printf("\n");
 }
 
+//Zone functions
+Zone *createZone(int numOfCols)
+{
+    Zone * zone = (Zone *)malloc(sizeof(Zone));
+    zone->numOfCols = numOfCols;
+    zone->cols = (PileCard *)malloc(sizeof(PileCard) * numOfCols);
+    int i;
+    for (i = 0 ; i < numOfCols ; i++)
+    {
+        zone->cols[i].head = NULL;
+        zone->cols[i].name = "-";
+    }
+    return zone;
+}
+
+Zone *createZone1()
+{
+    Zone * zone = (Zone *)malloc(sizeof(Zone));
+    zone->numOfCols = 8;
+    zone->cols = (PileCard *)malloc(sizeof(PileCard) * 8);
+    char* names[] = {"1", "2", "3", "4", "5", "6", "7", "8"};
+    int i;
+    for (i = 0 ; i < 8 ; i++)
+    {
+        zone->cols[i].head = NULL;
+        zone->cols[i].name = names[i];
+    }
+    return zone;
+}
+
+Zone *createZone2()
+{
+    Zone * zone = (Zone *)malloc(sizeof(Zone));
+    zone->numOfCols = 4;
+    zone->cols = (PileCard *)malloc(sizeof(PileCard) * 4);
+    char* names[] = {"A", "B", "C", "D"};
+    int i;
+    for (i = 0 ; i < 4 ; i++)
+    {
+        zone->cols[i].head = NULL;
+        zone->cols[i].name = names[i];
+    }
+    return zone;
+}
+
+Zone *createZone3()
+{
+    Zone * zone = (Zone *)malloc(sizeof(Zone));
+    zone->numOfCols = 4;
+    zone->cols = (PileCard *)malloc(sizeof(PileCard) * 4);
+    char* names[] = {"Ca", "Pi", "Co", "Tr"};
+    int i;
+    for (i = 0 ; i < 4 ; i++)
+    {
+        zone->cols[i].head = NULL;
+        zone->cols[i].name = names[i];
+    }
+    return zone;
+}
+
+
+void showZone(Zone zone)
+{
+    int i;
+    for (i = 0; i < zone.numOfCols; i++)
+    {
+        showPile(zone.cols[i]);
+    }
+}
 
 
 #endif
